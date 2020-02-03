@@ -67,7 +67,11 @@ enum class Emoji(val discord: String, val unicode: String?) {
     LOCK(":lock:", null),
     MUSIC(":musical_note:", null),
     STAR(":star:", "\u2b50"),
-    ANIM_CORRECT("<a:animated_check_mark:565648828435398708>", null);
+
+    ANIM_CORRECT("<a:animated_check_mark:565648828435398708>", null),
+    QUINELLA_THINK("<:quinellaThink:673972230488719360>", null),
+    QUINELLA_TREE("<:quinellaTree:673974438923993109>", null),
+    EMPTY("<:empty:621781910653370380>", null);
 
     override fun toString():String {
         return discord

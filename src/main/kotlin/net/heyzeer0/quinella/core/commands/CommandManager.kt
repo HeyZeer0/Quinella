@@ -73,7 +73,7 @@ class CommandManager {
 
         val msgTranslator = MessageTranslator(e)
         if (!e.member!!.hasPermission(*cmdContainer.annotation.permissions)) {
-            msgTranslator.sendMessage(Emoji.CRYING + "You don't have permissions to run this command! ``" + cmdContainer.annotation.permissions.joinToString(separator = ", ") + "``")
+            msgTranslator.sendMessage(Emoji.QUINELLA_THINK + "You don't have permissions to run this command! ``" + cmdContainer.annotation.permissions.joinToString(separator = ", ") + "``")
             return
         }
 
@@ -86,7 +86,7 @@ class CommandManager {
         for (arg in cmdContainer.annotation.args) {
             if (!argTranslator.has(arg.name) && !arg.optional) { //if any obligatory parameter is missing
                 msgTranslator.sendMessage(
-                    Emoji.CRYING + "You must define these parameters:" +
+                    Emoji.QUINELLA_THINK + "You must define these parameters:" +
                     "\n**Use:** ``${coreConfig.mainPrefix}${cmdContainer.annotation.name.replace("/", " ")} " + cmdContainer.requiredParams.joinToString(" ") + "``")
                 return
             }
@@ -106,7 +106,7 @@ class CommandManager {
 
         if (wrongArgs.isNotEmpty()) {
             msgTranslator.sendMessage(
-                Emoji.CRYING + "The following parameters are invalid:\n" +
+                Emoji.QUINELLA_THINK + "The following parameters are invalid:\n" +
                     "``" + wrongArgs.joinToString("\n") + "``")
             return
         }

@@ -24,7 +24,7 @@ class HelpCommands {
             command = if (command.contains("/")) command.split("/")[0] else command
 
             if (commandManager.commandList.none { it.annotation.name == command }) {
-                e.sendMessage(Emoji.CRYING + "The provided command doesn't exists!")
+                e.sendMessage(Emoji.QUINELLA_THINK + "The provided command doesn't exists!")
                 return
             }
 
@@ -92,11 +92,12 @@ class HelpCommands {
     }
 
     private fun containerMessage(container: HelpContainer): String {
-        var message = "**${container.pathName}**: ${container.pathDescription}\n";
-        message += container.arguments.joinToString("\n")
+        var message = "**${container.pathName}**: ${container.pathDescription}";
+        if (container.arguments.isNotEmpty()) message += "\n${Emoji.EMPTY}${Emoji.EMPTY}"
+        message += container.arguments.joinToString("\n${Emoji.EMPTY}${Emoji.EMPTY}")
 
         if (container.parents.isNotEmpty()) {
-            container.parents.forEach { (_, u) -> message += "\n<:invisible:621781910653370380>" + containerMessage(u).replace("\n", "\n<:invisible:621781910653370380>") }
+            container.parents.forEach { (_, u) -> message += "\n${Emoji.QUINELLA_TREE}" + containerMessage(u)}
         }
 
         return message;
