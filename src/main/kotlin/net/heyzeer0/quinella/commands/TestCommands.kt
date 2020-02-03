@@ -12,11 +12,11 @@ import java.util.function.Consumer
 
 class TestCommands {
 
-    @Command(name = "ping", permissions = [], type = CommandType.INFORMATIVE, description = "Retorna qual o ping atual do bot")
+    @Command(name = "ping", permissions = [], type = CommandType.INFORMATIVE, description = "Returns the current bot ping")
     fun ping(e: MessageTranslator, args: ArgumentTranslator) {
         val ms = currentTimeMillis()
-        e.sendMessage(Emoji.THINKING + "Calcuando o ping, aguarde um momento!", Consumer { t ->
-            t.editMessage(Emoji.CORRECT + "Pong! O Ping atual é de ``" + (currentTimeMillis() - ms) + "ms``").queue()
+        e.sendMessage(Emoji.THINKING + "Calculating ping wait a moment!", Consumer { t ->
+            t.editMessage(Emoji.CORRECT + "Pong! Currently ping is ``" + (currentTimeMillis() - ms) + "ms``").queue()
         })
     }
 

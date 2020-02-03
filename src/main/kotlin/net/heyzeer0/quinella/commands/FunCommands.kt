@@ -17,7 +17,7 @@ import java.awt.Color
 
 class FunCommands {
 
-    @Command(name = "gato", type = CommandType.FUN, description = "Receba um gato aleatório!")
+    @Command(name = "gato", type = CommandType.FUN, description = "Get a random cat!")
     fun randomCat(e: MessageTranslator, args: ArgumentTranslator) {
         val embedBuilder = EmbedBuilder()
         embedBuilder.setColor(Color.GREEN)
@@ -26,7 +26,7 @@ class FunCommands {
         e.sendMessage(embedBuilder)
     }
 
-    @Command(name = "cachorro", type = CommandType.FUN, description = "Receba um cachorro aleatoório!")
+    @Command(name = "cachorro", type = CommandType.FUN, description = "Get a random dog!")
     fun randomDog(e: MessageTranslator, args: ArgumentTranslator) {
         val embedBuilder = EmbedBuilder()
         embedBuilder.setColor(Color.GREEN)

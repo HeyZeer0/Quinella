@@ -16,15 +16,15 @@ import java.awt.Color
 class HelpCommands {
 
     @Command(name = "help", type = CommandType.INFORMATIVE, args =[
-        Argument("comando", ArgumentType.STRING, "Retorna mais informações sobre o comando definido")
-    ], description = "Lista todos os comandos ou mostra ajuda sobre um comando específico")
+        Argument("cmd", ArgumentType.STRING, "Gets more information about the provided command")
+    ], description = "Lists all commands")
     fun help(e: MessageTranslator, args: ArgumentTranslator) {
-        if (args.has("comando")) {
-            var command = args.getAsString("comando")!!
+        if (args.has("cmd")) {
+            var command = args.getAsString("cmd")!!
             command = if (command.contains("/")) command.split("/")[0] else command
 
             if (commandManager.commandList.none { it.annotation.name == command }) {
-                e.sendMessage(Emoji.CRYING + "O comando definido não existe!")
+                e.sendMessage(Emoji.CRYING + "The provided command doesn't exists!")
                 return
             }
 
@@ -56,11 +56,11 @@ class HelpCommands {
 
             val embedBuilder = EmbedBuilder()
             embedBuilder.setColor(Color.MAGENTA)
-            embedBuilder.setAuthor("Informações sobre o comando $command", null, "https://i.imgur.com/06PexZc.png")
+            embedBuilder.setAuthor("Information about the command $command", null, "https://i.imgur.com/06PexZc.png")
             embedBuilder.setThumbnail("https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/139/white-question-mark-ornament_2754.png")
-            embedBuilder.setDescription("Listando ajuda para o comando $command")
+            embedBuilder.setDescription("Listing help for command $command")
 
-            embedBuilder.addField("Argumentos:", containerMessage(helpContainer), true)
+            embedBuilder.addField("Arguments:", containerMessage(helpContainer), true)
 
             e.sendMessage(embedBuilder)
             return
@@ -72,22 +72,22 @@ class HelpCommands {
         val modCmds = commandManager.commandList.filter { it.annotation.type == CommandType.MODERATION }.filter{ !it.annotation.name.contains("/") }.map { it.annotation.name }.toList()
 
         val embedBuilder = EmbedBuilder()
-        embedBuilder.addField(Emoji.COOKIE + "| Diversão", checkIfNull(funCmds), false)
-        embedBuilder.addField(Emoji.BOOKMARK + "| Informação", checkIfNull(infoCmds), false)
-        embedBuilder.addField(Emoji.DIAMOND + "| Diversos", checkIfNull(misCmds), false)
-        embedBuilder.addField(Emoji.LOCK + "| Moderação", checkIfNull(modCmds), false)
+        embedBuilder.addField(Emoji.COOKIE + "| Fun", checkIfNull(funCmds), false)
+        embedBuilder.addField(Emoji.BOOKMARK + "| Information", checkIfNull(infoCmds), false)
+        embedBuilder.addField(Emoji.DIAMOND + "| Miscellany", checkIfNull(misCmds), false)
+        embedBuilder.addField(Emoji.LOCK + "| Moderation", checkIfNull(modCmds), false)
 
         embedBuilder.setColor(Color.MAGENTA)
-        embedBuilder.setDescription("Para mais informações digite ``${coreConfig?.mainPrefix}help -comando {comando}``")
-        embedBuilder.setFooter("Comandos disponívels: ${commandManager.commandList.size}", null)
+        embedBuilder.setDescription("For more information type ``${coreConfig?.mainPrefix}help -cmd {comando}``")
+        embedBuilder.setFooter("Available Commands: ${commandManager.commandList.size}", null)
         embedBuilder.setThumbnail("https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/139/white-question-mark-ornament_2754.png")
-        embedBuilder.setAuthor("Listando todos os comandos disponíveis", null, "https://i.imgur.com/06PexZc.png")
+        embedBuilder.setAuthor("Listing all available commands", null, "https://i.imgur.com/06PexZc.png")
 
         e.sendMessage(embedBuilder)
     }
 
     private fun checkIfNull(list: List<String>):String {
-        return if (list.isEmpty()) "``não há comandos nesta categoria!``"
+        return if (list.isEmpty()) "``There's no commands in this category!``"
         else "``" + list.joinToString(separator = "``, ``") + "``"
     }
 

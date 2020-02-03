@@ -14,11 +14,11 @@ import kotlin.reflect.full.findAnnotation
 private val configFolder = File(getDataFolder(), "config")
 private val gson = GsonBuilder().setPrettyPrinting().create()
 
-val coreConfig: CoreConfig? =
-    loadConfig(CoreConfig::class)
-val databaseConfig: DatabaseConfig? =
-    loadConfig(DatabaseConfig::class)
+// configs
+val coreConfig: CoreConfig? = loadConfig(CoreConfig::class)
+val databaseConfig: DatabaseConfig? = loadConfig(DatabaseConfig::class)
 
+// loader
 private inline fun <reified T:Any> loadConfig(clazz: KClass<*>): T? {
     val ann = clazz.findAnnotation<Settings>() ?: return null
 

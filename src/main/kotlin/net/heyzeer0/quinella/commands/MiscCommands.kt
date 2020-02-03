@@ -17,8 +17,8 @@ import java.awt.image.BufferedImage
 class MiscCommands {
 
     @Command(name = "avatar", type = CommandType.MISCELLANEOUS, args = [
-        Argument("u", ArgumentType.USER, "O usuário que você deseja pegar o avatar", optional = false)
-    ], description = "Veja o avatar de um usuário!")
+        Argument("u", ArgumentType.USER, "The user that you want to get the Avatar", optional = false)
+    ], description = "See an user avatar!")
     fun avatar(e: MessageTranslator, args: ArgumentTranslator) {
         val user = args.getAsUsers("u")!![0]
 
@@ -31,8 +31,8 @@ class MiscCommands {
     }
 
     @Command(name = "color", type = CommandType.MISCELLANEOUS, args = [
-        Argument("c", ArgumentType.COLOR, description = "A cor que você deseja visualizar", optional = false)
-    ], description = "Veja uma previsualização da cor definida!")
+        Argument("c", ArgumentType.COLOR, description = "The color that you want to visualize", optional = false)
+    ], description = "See a preview of the provided color!")
     fun color(e: MessageTranslator, args: ArgumentTranslator) {
         val color = args.getAsColor("c")
 

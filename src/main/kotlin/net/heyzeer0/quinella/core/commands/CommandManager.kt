@@ -29,11 +29,11 @@ class CommandManager {
 
             val requiredParams = ann.args.filter { !it.optional }.map {
                 "-" + it.name + " " + when(it.type) {
-                    ArgumentType.STRING -> "{um texto}"
-                    ArgumentType.NUMBER -> "{um número}"
-                    ArgumentType.USER -> "{@alguem/id/nome}"
-                    ArgumentType.ROLE -> "{@cargo/id/nome}"
-                    ArgumentType.TEXT_CHANNEL -> "{#canal/id}"
+                    ArgumentType.STRING -> "{a text}"
+                    ArgumentType.NUMBER -> "{a number}"
+                    ArgumentType.USER -> "{@someone/id/name}"
+                    ArgumentType.ROLE -> "{@role/id/name}"
+                    ArgumentType.TEXT_CHANNEL -> "{#channel/id}"
                     ArgumentType.COLOR -> "{#hex/255, 255, 255}"
                 }
             }
@@ -73,7 +73,7 @@ class CommandManager {
 
         val msgTranslator = MessageTranslator(e)
         if (!e.member!!.hasPermission(*cmdContainer.annotation.permissions)) {
-            msgTranslator.sendMessage(Emoji.CRYING + "Você não possui permissão para executar este comando! ``" + cmdContainer.annotation.permissions.joinToString(separator = ", ") + "``")
+            msgTranslator.sendMessage(Emoji.CRYING + "You don't have permissions to run this command! ``" + cmdContainer.annotation.permissions.joinToString(separator = ", ") + "``")
             return
         }
 
@@ -86,7 +86,7 @@ class CommandManager {
         for (arg in cmdContainer.annotation.args) {
             if (!argTranslator.has(arg.name) && !arg.optional) { //if any obligatory parameter is missing
                 msgTranslator.sendMessage(
-                    Emoji.CRYING + "Você esqueceu de definir os parametros obrigatórios!" +
+                    Emoji.CRYING + "You must define these parameters:" +
                     "\n**Use:** ``${coreConfig.mainPrefix}${cmdContainer.annotation.name.replace("/", " ")} " + cmdContainer.requiredParams.joinToString(" ") + "``")
                 return
             }
@@ -106,7 +106,7 @@ class CommandManager {
 
         if (wrongArgs.isNotEmpty()) {
             msgTranslator.sendMessage(
-                Emoji.CRYING + "Os seguintes parametros definidos estão invalidos:\n" +
+                Emoji.CRYING + "The following parameters are invalid:\n" +
                     "``" + wrongArgs.joinToString("\n") + "``")
             return
         }
