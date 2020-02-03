@@ -11,8 +11,6 @@ class MainListener:EventListener {
     override fun onEvent(event: GenericEvent) {
         if(event is GuildMessageReceivedEvent) {
             GuildMessageHandler.onGuildMessageReceived(event)
-
-            SecondExecutor.verifyTask() //verifies if the task didn't die for a random reason
         }
     }
 
