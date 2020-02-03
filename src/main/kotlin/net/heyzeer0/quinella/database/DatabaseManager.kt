@@ -18,21 +18,21 @@ class DatabaseManager {
 
     fun getUserProfile(id: Long): UserProfile {
         val requestResult = r.table("users").get(id).run<HashMap<*, *>>(connection)
-        if(requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), UserProfile::class.java)
+        if (requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), UserProfile::class.java)
 
         return UserProfile(id)
     }
 
     fun getGuildProfile(id: Long): GuildProfile {
         val requestResult = r.table("guilds").get(id).run<HashMap<*, *>>(connection)
-        if(requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), GuildProfile::class.java)
+        if (requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), GuildProfile::class.java)
 
         return GuildProfile(id)
     }
 
     fun getServerProfile(): ServerProfile {
         val requestResult = r.table("server").get("server").run<HashMap<*, *>>(connection)
-        if(requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), ServerProfile::class.java)
+        if (requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), ServerProfile::class.java)
 
         return ServerProfile()
     }

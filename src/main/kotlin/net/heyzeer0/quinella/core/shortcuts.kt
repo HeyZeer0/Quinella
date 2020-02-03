@@ -23,10 +23,10 @@ fun currentTimeMillis():Long {
 }
 
 fun isNumber(input: String): Boolean {
-    return try{
+    return try {
         Integer.parseInt(input)
         true
-    }catch (e: Exception) { false }
+    } catch (e: Exception) { false }
 }
 
 fun randomGame(): String? {
@@ -69,7 +69,7 @@ fun Long.toReadableTime():String {
     val minutes = this / 60000L % 60
     val seconds = this / 1000L % 60
 
-    var time = (if(years == 0L) "" else "$years Anos, ") + (if(months == 0L) "" else "$months Mêses, ") + (if(days == 0L) "" else "$days Dias, ") + (if(hours == 0L) "" else "$hours Horas, ") + (if(minutes == 0L) "" else "$minutes Minutos, ")  + (if(seconds == 0L) "" else "$seconds Segundos, ")
+    var time = (if (years == 0L) "" else "$years Anos, ") + (if (months == 0L) "" else "$months Mêses, ") + (if (days == 0L) "" else "$days Dias, ") + (if (hours == 0L) "" else "$hours Horas, ") + (if (minutes == 0L) "" else "$minutes Minutos, ")  + (if (seconds == 0L) "" else "$seconds Segundos, ")
     time = replaceLast(time, ", ", "")
     time = replaceLast(time, ",", " e")
 
@@ -91,8 +91,9 @@ fun toColor(origin: String):Color? {
             Integer.valueOf(origin.substring(5, 7), 16)
         )
     }
+
     val matcher = RGB_REGEX.matcher(origin)
-    if(matcher.matches()) {
+    if (matcher.matches()) {
         return Color(
             Integer.valueOf(matcher.group(1)),
             Integer.valueOf(matcher.group(2)),

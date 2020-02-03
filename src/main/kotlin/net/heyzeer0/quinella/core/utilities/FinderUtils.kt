@@ -20,19 +20,18 @@ fun findUsers(query: String):List<User> {
     val userMention = USER_MENTION.matcher(query)
     val fullRefMatch = FULL_USER_REF.matcher(query)
 
-    if(userMention.matches()) {
+    if (userMention.matches()) {
         return Collections.singletonList(getJDA().getUserById(userMention.group(1))!!)
-    }
-    else if(fullRefMatch.matches()) {
+    } else if (fullRefMatch.matches()) {
         val lowerName = fullRefMatch.group(1).toLowerCase()
         val discriminator = fullRefMatch.group(2)
 
         val users = getJDA().userCache.stream().filter { it.name.toLowerCase() == lowerName && it.discriminator == discriminator }.collect(Collectors.toList())
 
-        if(!users.isEmpty()) return users
-    }else if(DISCORD_ID.matcher(query).matches()) {
+        if (users.isNotEmpty()) return users
+    } else if (DISCORD_ID.matcher(query).matches()) {
         val user = getJDA().getUserById(query);
-        if(user != null) return Collections.singletonList(user)
+        if (user != null) return Collections.singletonList(user)
     }
 
     val exact = ArrayList<User>()
@@ -43,15 +42,15 @@ fun findUsers(query: String):List<User> {
     val lowerQuery = query.toLowerCase()
     getJDA().userCache.forEach {
         val name = it.name
-        if(name == query) exact.add(it)
-        else if(name.equals(query, true) && exact.isEmpty()) wrongCase.add(it)
-        else if(name.toLowerCase().startsWith(lowerQuery) && wrongCase.isEmpty()) startsWith.add(it)
-        else if(name.toLowerCase().contains(lowerQuery) && startsWith.isEmpty()) contains.add(it)
+        if (name == query) exact.add(it)
+        else if (name.equals(query, true) && exact.isEmpty()) wrongCase.add(it)
+        else if (name.toLowerCase().startsWith(lowerQuery) && wrongCase.isEmpty()) startsWith.add(it)
+        else if (name.toLowerCase().contains(lowerQuery) && startsWith.isEmpty()) contains.add(it)
     }
 
-    if(exact.isNotEmpty()) return Collections.unmodifiableList(exact)
-    if(wrongCase.isNotEmpty()) return Collections.unmodifiableList(wrongCase)
-    if(startsWith.isNotEmpty()) return Collections.unmodifiableList(startsWith)
+    if (exact.isNotEmpty()) return Collections.unmodifiableList(exact)
+    if (wrongCase.isNotEmpty()) return Collections.unmodifiableList(wrongCase)
+    if (startsWith.isNotEmpty()) return Collections.unmodifiableList(startsWith)
 
     return Collections.unmodifiableList(contains)
 }
@@ -59,10 +58,10 @@ fun findUsers(query: String):List<User> {
 fun findTextChannels(query: String, guild: Guild? = null):List<TextChannel> {
     val channelMention = CHANNEL_MENTION.matcher(query)
 
-    if(channelMention.matches()) {
-        return Collections.singletonList(if(guild == null) getJDA().getTextChannelById(channelMention.group(1))!! else guild.getTextChannelById(channelMention.group(1))!!)
-    }else if(DISCORD_ID.matcher(query).matches()) {
-        return Collections.singletonList(if(guild == null) getJDA().getTextChannelById(query)!! else guild.getTextChannelById(query)!!)
+    if (channelMention.matches()) {
+        return Collections.singletonList(if (guild == null) getJDA().getTextChannelById(channelMention.group(1))!! else guild.getTextChannelById(channelMention.group(1))!!)
+    }else if (DISCORD_ID.matcher(query).matches()) {
+        return Collections.singletonList(if (guild == null) getJDA().getTextChannelById(query)!! else guild.getTextChannelById(query)!!)
     }
 
     return emptyList()
@@ -70,12 +69,12 @@ fun findTextChannels(query: String, guild: Guild? = null):List<TextChannel> {
 
 fun findRoles(query: String, guild: Guild):List<Role> {
     val roleMention = ROLE_MENTION.matcher(query)
-    if(roleMention.matches()) {
+    if (roleMention.matches()) {
         val role = guild.getRoleById(roleMention.group(1))
-        if(role != null && role.isMentionable) return Collections.singletonList(role)
-    }else if(DISCORD_ID.matcher(query).matches()) {
+        if (role != null && role.isMentionable) return Collections.singletonList(role)
+    }else if (DISCORD_ID.matcher(query).matches()) {
         val role = guild.getRoleById(query)
-        if(role != null) return Collections.singletonList(role)
+        if (role != null) return Collections.singletonList(role)
     }
 
     val exact = ArrayList<Role>()
@@ -86,15 +85,15 @@ fun findRoles(query: String, guild: Guild):List<Role> {
     val lowerQuery = query.toLowerCase()
     getJDA().roleCache.forEach {
         val name = it.name
-        if(name == query) exact.add(it)
-        else if(name.equals(query, true) && exact.isEmpty()) wrongCase.add(it)
-        else if(name.toLowerCase().startsWith(lowerQuery) && wrongCase.isEmpty()) startsWith.add(it)
-        else if(name.toLowerCase().contains(lowerQuery) && startsWith.isEmpty()) contains.add(it)
+        if (name == query) exact.add(it)
+        else if (name.equals(query, true) && exact.isEmpty()) wrongCase.add(it)
+        else if (name.toLowerCase().startsWith(lowerQuery) && wrongCase.isEmpty()) startsWith.add(it)
+        else if (name.toLowerCase().contains(lowerQuery) && startsWith.isEmpty()) contains.add(it)
     }
 
-    if(exact.isNotEmpty()) return Collections.unmodifiableList(exact)
-    if(wrongCase.isNotEmpty()) return Collections.unmodifiableList(wrongCase)
-    if(startsWith.isNotEmpty()) return Collections.unmodifiableList(startsWith)
+    if (exact.isNotEmpty()) return Collections.unmodifiableList(exact)
+    if (wrongCase.isNotEmpty()) return Collections.unmodifiableList(wrongCase)
+    if (startsWith.isNotEmpty()) return Collections.unmodifiableList(startsWith)
 
     return Collections.unmodifiableList(contains)
 }

@@ -19,11 +19,11 @@ class HelpCommands {
         Argument("comando", ArgumentType.STRING, "Retorna mais informações sobre o comando definido")
     ], description = "Lista todos os comandos ou mostra ajuda sobre um comando específico")
     fun help(e: MessageTranslator, args: ArgumentTranslator) {
-        if(args.has("comando")) {
+        if (args.has("comando")) {
             var command = args.getAsString("comando")!!
-            command = if(command.contains("/")) command.split("/")[0] else command
+            command = if (command.contains("/")) command.split("/")[0] else command
 
-            if(commandManager.commandList.none { it.annotation.name == command }) {
+            if (commandManager.commandList.none { it.annotation.name == command }) {
                 e.sendMessage(Emoji.CRYING + "O comando definido não existe!")
                 return
             }
@@ -34,13 +34,13 @@ class HelpCommands {
             val helpContainer = HelpContainer(command, foundCmd!!.annotation.description)
             helpContainer.arguments = foundCmd.annotation.args.map { "-" + it.name + " = " + it.description }.toList()
 
-            if(subcmds.isNotEmpty()) {
+            if (subcmds.isNotEmpty()) {
                 for (input in subcmds) {
                     val parents = input.annotation.name.split("/")
 
                     var subContainer = helpContainer
-                    for(i in 1 until parents.size) {
-                        if(subContainer.parents[parents[i]] == null) {
+                    for (i in 1 until parents.size) {
+                        if (subContainer.parents[parents[i]] == null) {
                             subContainer.parents[parents[i]] = HelpContainer("", "")
                         }
 
@@ -87,7 +87,7 @@ class HelpCommands {
     }
 
     private fun checkIfNull(list: List<String>):String {
-        return if(list.isEmpty()) "``não há comandos nesta categoria!``"
+        return if (list.isEmpty()) "``não há comandos nesta categoria!``"
         else "``" + list.joinToString(separator = "``, ``") + "``"
     }
 
@@ -95,7 +95,7 @@ class HelpCommands {
         var message = "**${container.pathName}**: ${container.pathDescription}\n";
         message += container.arguments.joinToString("\n")
 
-        if(container.parents.isNotEmpty()) {
+        if (container.parents.isNotEmpty()) {
             container.parents.forEach { (_, u) -> message += "\n<:invisible:621781910653370380>" + containerMessage(u).replace("\n", "\n<:invisible:621781910653370380>") }
         }
 

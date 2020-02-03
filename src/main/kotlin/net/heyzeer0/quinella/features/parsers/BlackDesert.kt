@@ -35,9 +35,9 @@ object BlackDesert {
         val currentDate = Calendar.getInstance(TimeZone.getTimeZone("BET"))
 
         val toAdd = currentDate.getHours() + (24 - currentDate.getHours())
-        if(currentDate.getHours() >= 20 && bosses[(currentDate.getDay() * 6)-1] == null) {
+        if (currentDate.getHours() >= 20 && bosses[(currentDate.getDay() * 6)-1] == null) {
             currentDate.setHours(toAdd)
-        }else if(currentDate.getHours() >= 23 && currentDate.getMinutes() >= 30) {
+        } else if (currentDate.getHours() >= 23 && currentDate.getMinutes() >= 30) {
             currentDate.setHours(toAdd)
         }
 
@@ -61,8 +61,8 @@ object BlackDesert {
         else if (date.getHours() >= 11) bossId = 3
         else if (date.getHours() >= 2) bossId = 2
 
-        if(getBossById(bossId) == null) {
-            if(bossId+1 > 6) bossId = 1
+        if (getBossById(bossId) == null) {
+            if (bossId+1 > 6) bossId = 1
             else bossId += 1
         }
 
@@ -101,11 +101,11 @@ object BlackDesert {
     fun getTodayBosses():String {
         val message = StringBuilder()
 
-        for(i in 1..6) {
+        for (i in 1..6) {
             val bossName = getBossById(i) ?: continue
 
             message.append(bossName)
-            when(i) {
+            when (i) {
                 1 -> message.append(" (02:00), ")
                 2 -> message.append(" (11:00), ")
                 3 -> message.append(" (16:00), ")

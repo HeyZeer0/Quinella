@@ -26,9 +26,9 @@ object SecondExecutor {
         println("- Started Runnable Thread")
         future = thread.scheduleAtFixedRate({
             val it = executors.iterator()
-            while(it.hasNext()) {
+            while (it.hasNext()) {
                 val next = it.next()
-                if(next.canceled) {
+                if (next.canceled) {
                     it.remove()
                     continue
                 }

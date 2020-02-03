@@ -25,7 +25,7 @@ class CommandManager {
         //register default commands
         clazz.functions.forEach {
             val ann = it.findAnnotation<Command>() ?: return@forEach
-            if(it.parameters.size != 3) return@forEach
+            if (it.parameters.size != 3) return@forEach
 
             val requiredParams = ann.args.filter { !it.optional }.map {
                 "-" + it.name + " " + when(it.type) {
@@ -48,15 +48,15 @@ class CommandManager {
 
     fun runCommand(e: GuildMessageReceivedEvent) {
         val messageRaw = e.message.contentRaw
-        if(messageRaw.length <= 2 || !messageRaw.startsWith(coreConfig?.mainPrefix!!)) return
+        if (messageRaw.length <= 2 || !messageRaw.startsWith(coreConfig?.mainPrefix!!)) return
 
         val beheaded = messageRaw.replaceFirst(coreConfig.mainPrefix, "")
         val splitted = beheaded.split(" ") //!teste || splitted[0] = teste
 
         //command lookup
         var expectedCommand = ""
-        for(arg in splitted) {
-            if(arg.startsWith("-")) break
+        for (arg in splitted) {
+            if (arg.startsWith("-")) break
 
             expectedCommand += "$arg/"
         }
@@ -65,14 +65,14 @@ class CommandManager {
 
         val cmdContainer = if(commandAliases.containsKey(expectedCommand)) {
             commandList.firstOrNull { it.annotation.name.equals(commandAliases[expectedCommand], true)} ?: return
-        }else {
+        } else {
             commandList.firstOrNull { it.annotation.name.equals(expectedCommand, true)} ?: return
         }
 
-        if(cmdContainer.annotation.sendTyping) e.channel.sendTyping().complete()
+        if (cmdContainer.annotation.sendTyping) e.channel.sendTyping().complete()
 
         val msgTranslator = MessageTranslator(e)
-        if(!e.member!!.hasPermission(*cmdContainer.annotation.permissions)) {
+        if (!e.member!!.hasPermission(*cmdContainer.annotation.permissions)) {
             msgTranslator.sendMessage(Emoji.CRYING + "Você não possui permissão para executar este comando! ``" + cmdContainer.annotation.permissions.joinToString(separator = ", ") + "``")
             return
         }
@@ -83,8 +83,8 @@ class CommandManager {
         )
 
         var wrongArgs = emptyList<String>()
-        for(arg in cmdContainer.annotation.args) {
-            if(!argTranslator.has(arg.name) && !arg.optional) { //if any obligatory parameter is missing
+        for (arg in cmdContainer.annotation.args) {
+            if (!argTranslator.has(arg.name) && !arg.optional) { //if any obligatory parameter is missing
                 msgTranslator.sendMessage(
                     Emoji.CRYING + "Você esqueceu de definir os parametros obrigatórios!" +
                     "\n**Use:** ``${coreConfig.mainPrefix}${cmdContainer.annotation.name.replace("/", " ")} " + cmdContainer.requiredParams.joinToString(" ") + "``")
@@ -99,21 +99,21 @@ class CommandManager {
                 ArgumentType.TEXT_CHANNEL -> argTranslator.getAsTextChannels(arg.name)!!.isEmpty()
                 ArgumentType.COLOR -> argTranslator.getAsColor(arg.name) == null
             }
-            if(!invalid) continue
+            if (!invalid) continue
 
             wrongArgs = wrongArgs + cmdContainer.requiredParams.first{ it.startsWith("-" + arg.name) }
         }
 
-        if(wrongArgs.isNotEmpty()) {
+        if (wrongArgs.isNotEmpty()) {
             msgTranslator.sendMessage(
                 Emoji.CRYING + "Os seguintes parametros definidos estão invalidos:\n" +
                     "``" + wrongArgs.joinToString("\n") + "``")
             return
         }
 
-        try{
+        try {
             cmdContainer.method.call(cmdContainer.instance, msgTranslator, argTranslator)
-        }catch (ex: Exception) {
+        } catch (ex: Exception) {
             //TODO redirect the stacktrace to somewhere and alert the instance owner
             ex.printStackTrace()
         }

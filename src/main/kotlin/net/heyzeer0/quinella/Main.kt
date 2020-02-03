@@ -19,7 +19,7 @@ var commandManager = CommandManager()
 lateinit var databaseManager: DatabaseManager
 
 private fun main() {
-    if(coreConfig?.botToken.equals("<insert-here>")) {
+    if (coreConfig?.botToken.equals("<insert-here>")) {
         println("> Please set up a bot token before starting the bot!")
         return
     }

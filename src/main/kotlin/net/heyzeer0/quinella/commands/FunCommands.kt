@@ -47,7 +47,7 @@ class FunCommands {
     fun blackDesertRegister(e: MessageTranslator, args: ArgumentTranslator) {
         val channel = e.getChannel()
 
-        when(BlackDesertManager.updateChannelStatus(channel.id)) {
+        when (BlackDesertManager.updateChannelStatus(channel.id)) {
             ActionResult.REMOVED -> e.sendMessage("${Emoji.ANIM_CORRECT} Este canal não irá mais receber notificações do jogo!")
             ActionResult.ADDED -> e.sendMessage("${Emoji.ANIM_CORRECT} Este canal agora irá receber notificações do jogo!")
         }

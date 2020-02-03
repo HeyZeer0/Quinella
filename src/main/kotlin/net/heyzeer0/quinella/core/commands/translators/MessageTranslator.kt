@@ -31,13 +31,13 @@ class MessageTranslator(val origin: GuildMessageReceivedEvent) {
 
     fun sendImage(image: BufferedImage, embedBuilder: EmbedBuilder? = null, fileName: String = "image", consumer: Consumer<Message> = Consumer {}) {
         val byteArray = ByteArrayOutputStream()
-        try{
+        try {
             ImageIO.write(image, "png", byteArray)
-        }catch (e: Exception) {}
+        } catch (e: Exception) {}
 
         val inputStream: InputStream = ByteArrayInputStream(byteArray.toByteArray())
 
-        if(embedBuilder == null)
+        if (embedBuilder == null)
             origin.channel.sendFile(inputStream, "${fileName}.png").queue(consumer)
         else
             origin.channel.sendMessage(MessageBuilder().setEmbed(embedBuilder.setImage("attachment://${fileName}.png").build()).build())

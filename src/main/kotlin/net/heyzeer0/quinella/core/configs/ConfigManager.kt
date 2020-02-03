@@ -25,7 +25,7 @@ private inline fun <reified T:Any> loadConfig(clazz: KClass<*>): T? {
     configFolder.mkdirs()
 
     val configFile = File(configFolder, ann.name + ".config")
-    if(!configFile.exists()) {
+    if (!configFile.exists()) {
         val instance = clazz.createInstance() as T
         val json = gson.toJson(instance)
 
