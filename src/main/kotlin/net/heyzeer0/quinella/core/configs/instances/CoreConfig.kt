@@ -1,4 +1,4 @@
-package net.heyzeer0.quinella.core.configs.instancies
+package net.heyzeer0.quinella.core.configs.instances
 
 import net.heyzeer0.quinella.core.configs.annotations.Settings
 

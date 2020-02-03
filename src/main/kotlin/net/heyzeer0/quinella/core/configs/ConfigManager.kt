@@ -1,8 +1,8 @@
 package net.heyzeer0.quinella.core.configs
 
 import net.heyzeer0.quinella.core.configs.annotations.Settings
-import net.heyzeer0.quinella.core.configs.instancies.CoreConfig
-import net.heyzeer0.quinella.core.configs.instancies.DatabaseConfig
+import net.heyzeer0.quinella.core.configs.instances.CoreConfig
+import net.heyzeer0.quinella.core.configs.instances.DatabaseConfig
 import net.heyzeer0.quinella.getDataFolder
 import com.google.gson.GsonBuilder
 import java.io.File
