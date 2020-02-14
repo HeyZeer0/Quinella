@@ -18,6 +18,7 @@ dependencies {
     implementation "com.google.code.gson:gson:2.8.5"
     implementation "org.slf4j:slf4j-nop:1.7.26"
     implementation "com.rethinkdb:rethinkdb-driver:2.3.3"
+    implementation "com.github.francesco149:koohii:+"
 
     compile ('net.dv8tion:JDA:4.0.0_46') {
         exclude module: 'opus-java'

@@ -12,8 +12,8 @@ object SecondExecutor {
 
     private var future : ScheduledFuture<*>? = null
 
-    fun registerTask(runnable: () -> Unit): TaskContainer {
-        val container = TaskContainer(false, runnable)
+    fun registerTask(runnable: () -> Unit, name: String = "Not Assgined"): TaskContainer {
+        val container = TaskContainer(false, runnable, name)
         executors.add(container)
 
         verifyTask()
@@ -33,7 +33,13 @@ object SecondExecutor {
                     continue
                 }
 
-                next.runnable.invoke()
+                try {
+                    next.runnable.invoke()
+                }catch (ex: Exception) {
+                    it.remove()
+                    println("[!!!] Task " + next.name + " crashed and was removed from the task list.")
+                    // TODO alert bot owner
+                }
             }
         }, 0, 1, TimeUnit.SECONDS)
     }

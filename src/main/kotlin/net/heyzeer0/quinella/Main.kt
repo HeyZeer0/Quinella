@@ -1,22 +1,24 @@
 package net.heyzeer0.quinella
 
+import net.dv8tion.jda.api.JDA
+import net.dv8tion.jda.api.JDABuilder
+import net.dv8tion.jda.api.entities.Activity
+import net.heyzeer0.quinella.commands.*
 import net.heyzeer0.quinella.core.commands.CommandManager
 import net.heyzeer0.quinella.core.configs.coreConfig
 import net.heyzeer0.quinella.core.currentTimeMillis
 import net.heyzeer0.quinella.core.listeners.MainListener
 import net.heyzeer0.quinella.core.randomGame
-import net.dv8tion.jda.api.JDA
-import net.dv8tion.jda.api.JDABuilder
-import net.dv8tion.jda.api.entities.Activity
-import net.heyzeer0.quinella.commands.*
 import net.heyzeer0.quinella.database.DatabaseManager
 import net.heyzeer0.quinella.features.FeaturesManager
+import okhttp3.OkHttpClient
 import java.io.File
 
 lateinit var jda: JDA
 
 var commandManager = CommandManager()
 lateinit var databaseManager: DatabaseManager
+val httpClient = OkHttpClient()
 
 private fun main() {
     if (coreConfig?.botToken.equals("<insert-here>")) {

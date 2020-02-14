@@ -30,9 +30,9 @@ object BlackDesertManager {
     }
 
     fun registerAlgorithm() {
-        runTask {
+        runTask({
             startAlgorithm()
-        }
+        }, "BlackDesertFeed")
     }
 
     private fun startAlgorithm() {

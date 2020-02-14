@@ -1,13 +1,13 @@
 package net.heyzeer0.quinella.core.commands.translators
 
-import net.heyzeer0.quinella.core.toColor
-import net.heyzeer0.quinella.core.utilities.findRoles
-import net.heyzeer0.quinella.core.utilities.findTextChannels
-import net.heyzeer0.quinella.core.utilities.findUsers
 import net.dv8tion.jda.api.entities.Guild
 import net.dv8tion.jda.api.entities.Role
 import net.dv8tion.jda.api.entities.TextChannel
 import net.dv8tion.jda.api.entities.User
+import net.heyzeer0.quinella.core.toColor
+import net.heyzeer0.quinella.core.utilities.findRoles
+import net.heyzeer0.quinella.core.utilities.findTextChannels
+import net.heyzeer0.quinella.core.utilities.findUsers
 import java.awt.Color
 import java.util.regex.Pattern
 
@@ -47,7 +47,7 @@ class ArgumentTranslator(rawArguments: String, val guild: Guild) {
     }
 
     fun getAsColor(key: String): Color? {
-        return mappedArguments[key]?.let { toColor(it) }
+        return mappedArguments[key]?.toColor()
     }
 
     fun getAsRoles(key: String): List<Role>? {

@@ -14,7 +14,8 @@ class DatabaseManager {
     val connection = r.connection().hostname(databaseConfig!!.ip).port(databaseConfig.port).db(databaseConfig.database).user(databaseConfig.user, databaseConfig.password).connect()!!
     val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    val gson = Gson()
+    private val gson = Gson()
+    private var server: ServerProfile? = null
 
     fun getUserProfile(id: Long): UserProfile {
         val requestResult = r.table("users").get(id).run<HashMap<*, *>>(connection)
@@ -31,10 +32,13 @@ class DatabaseManager {
     }
 
     fun getServerProfile(): ServerProfile {
-        val requestResult = r.table("server").get("server").run<HashMap<*, *>>(connection)
-        if (requestResult != null) return gson.fromJson(gson.toJsonTree(requestResult), ServerProfile::class.java)
+        if (server == null) {
+            val requestResult = r.table("server").get("server").run<HashMap<*, *>>(connection)
+            server = if (requestResult != null) gson.fromJson(gson.toJsonTree(requestResult), ServerProfile::class.java)
+            else ServerProfile()
+        }
 
-        return ServerProfile()
+        return server!!
     }
 
 }

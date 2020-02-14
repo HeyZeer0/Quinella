@@ -1,10 +1,8 @@
 package net.heyzeer0.quinella.core
 
-import net.dv8tion.jda.api.entities.Guild
-import net.dv8tion.jda.api.entities.Message
-import net.dv8tion.jda.api.entities.TextChannel
-import net.dv8tion.jda.api.entities.User
+import net.dv8tion.jda.api.entities.*
 import net.heyzeer0.quinella.core.configs.coreConfig
+import net.heyzeer0.quinella.core.managers.AsyncExecutor
 import net.heyzeer0.quinella.core.managers.SecondExecutor
 import net.heyzeer0.quinella.core.managers.containers.TaskContainer
 import net.heyzeer0.quinella.database.objects.GuildProfile
@@ -13,7 +11,6 @@ import net.heyzeer0.quinella.database.objects.UserProfile
 import net.heyzeer0.quinella.databaseManager
 import net.heyzeer0.quinella.jda
 import java.awt.Color
-import java.lang.Exception
 import java.util.*
 import java.util.regex.Pattern
 import kotlin.random.Random
@@ -37,8 +34,12 @@ fun getServer(): ServerProfile {
     return databaseManager.getServerProfile()
 }
 
-fun runTask(runnable: () -> Unit): TaskContainer {
-    return SecondExecutor.registerTask(runnable)
+fun runTask(runnable: () -> Unit, name: String = "Not Assigned"): TaskContainer {
+    return SecondExecutor.registerTask(runnable, name)
+}
+
+fun runAsync(runnable: () -> Unit) {
+    AsyncExecutor.runAsync(runnable)
 }
 
 fun getTextChannel(id: Long): TextChannel? {
@@ -59,6 +60,10 @@ fun User.getUserProfile():UserProfile {
 
 fun Guild.getGuildProfile():GuildProfile {
     return databaseManager.getGuildProfile(this.idLong)
+}
+
+fun Member.isPlaying(gameName: String): Boolean {
+    return activities.any { it.name == gameName }
 }
 
 fun Long.toReadableTime():String {
@@ -83,16 +88,16 @@ fun replaceLast(text: String, regex: String, replacement: String): String {
 private val HEX_REGEX = Pattern.compile("^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})\$")
 private val RGB_REGEX = Pattern.compile("(\\d{1,3}), (\\d{1,3}), (\\d{1,3})")
 
-fun toColor(origin: String):Color? {
-    if(HEX_REGEX.matcher(origin).matches()) {
+fun String.toColor():Color? {
+    if(HEX_REGEX.matcher(this).matches()) {
         return Color(
-            Integer.valueOf(origin.substring(1, 3), 16),
-            Integer.valueOf(origin.substring(3, 5), 16),
-            Integer.valueOf(origin.substring(5, 7), 16)
+            Integer.valueOf(substring(1, 3), 16),
+            Integer.valueOf(substring(3, 5), 16),
+            Integer.valueOf(substring(5, 7), 16)
         )
     }
 
-    val matcher = RGB_REGEX.matcher(origin)
+    val matcher = RGB_REGEX.matcher(this)
     if (matcher.matches()) {
         return Color(
             Integer.valueOf(matcher.group(1)),
@@ -101,6 +106,10 @@ fun toColor(origin: String):Color? {
     }
 
     return null
+}
+
+fun Int.toBoolean(): Boolean {
+    return this == 1
 }
 
 fun Color.toHexString():String {

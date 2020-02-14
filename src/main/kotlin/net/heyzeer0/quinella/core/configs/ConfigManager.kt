@@ -1,10 +1,11 @@
 package net.heyzeer0.quinella.core.configs
 
+import com.google.gson.GsonBuilder
 import net.heyzeer0.quinella.core.configs.annotations.Settings
+import net.heyzeer0.quinella.core.configs.instances.ApiKeysConfig
 import net.heyzeer0.quinella.core.configs.instances.CoreConfig
 import net.heyzeer0.quinella.core.configs.instances.DatabaseConfig
 import net.heyzeer0.quinella.getDataFolder
-import com.google.gson.GsonBuilder
 import java.io.File
 import java.nio.charset.StandardCharsets
 import kotlin.reflect.KClass
@@ -17,6 +18,7 @@ private val gson = GsonBuilder().setPrettyPrinting().create()
 // configs
 val coreConfig: CoreConfig? = loadConfig(CoreConfig::class)
 val databaseConfig: DatabaseConfig? = loadConfig(DatabaseConfig::class)
+val apiKeys: ApiKeysConfig? = loadConfig(ApiKeysConfig::class)
 
 // loader
 private inline fun <reified T:Any> loadConfig(clazz: KClass<*>): T? {

@@ -1,19 +1,23 @@
 package net.heyzeer0.quinella.commands
 
+import net.dv8tion.jda.api.EmbedBuilder
+import net.dv8tion.jda.api.Permission
+import net.heyzeer0.quinella.core.commands.annotations.Argument
 import net.heyzeer0.quinella.core.commands.annotations.Command
+import net.heyzeer0.quinella.core.commands.enums.ArgumentType
 import net.heyzeer0.quinella.core.commands.enums.CommandType
 import net.heyzeer0.quinella.core.commands.translators.ArgumentTranslator
 import net.heyzeer0.quinella.core.commands.translators.MessageTranslator
-import net.heyzeer0.quinella.features.parsers.RandomCat
-import net.heyzeer0.quinella.features.parsers.RandomDog
-import net.dv8tion.jda.api.EmbedBuilder
-import net.dv8tion.jda.api.Permission
-import net.heyzeer0.quinella.core.commands.enums.Emoji
 import net.heyzeer0.quinella.core.enums.ActionResult
+import net.heyzeer0.quinella.core.enums.Emoji
 import net.heyzeer0.quinella.core.toReadableTime
 import net.heyzeer0.quinella.features.managers.BlackDesertManager
+import net.heyzeer0.quinella.features.managers.OsuManager
 import net.heyzeer0.quinella.features.parsers.BlackDesert
+import net.heyzeer0.quinella.features.parsers.RandomCat
+import net.heyzeer0.quinella.features.parsers.RandomDog
 import java.awt.Color
+import java.util.function.Consumer
 
 class FunCommands {
 
@@ -51,6 +55,27 @@ class FunCommands {
             ActionResult.REMOVED -> e.sendMessage("${Emoji.ANIM_CORRECT} Este canal não irá mais receber notificações do jogo!")
             ActionResult.ADDED -> e.sendMessage("${Emoji.ANIM_CORRECT} Este canal agora irá receber notificações do jogo!")
         }
+    }
+
+    @Command(name = "osu", type = CommandType.FUN, description = "Lists all available osu related commands!")
+    fun osu(e: MessageTranslator, args: ArgumentTranslator) {
+
+    }
+
+    @Command(name = "osu/profile", type = CommandType.FUN, description = "See a osu player profile!",
+        args = [ Argument(name = "u", type = ArgumentType.STRING, description = "The user name or id", optional = false) ])
+    fun osuProfile(e: MessageTranslator, args: ArgumentTranslator) {
+        e.sendMessage(Emoji.ANIM_LOADING + "Generating **${args.getAsString("u")}** profile...", Consumer {
+            val image = OsuManager.drawUserProfileImage(args.getAsString("u")!!)
+
+            if (image == null) {
+                it.editMessage(Emoji.QUINELLA_THINK + "The provided user doesn't have an osu! account.").queue()
+                return@Consumer
+            }
+
+            it.delete().queue()
+            e.sendImage(image, null, args.getAsString("u")!!)
+        })
     }
 
 }

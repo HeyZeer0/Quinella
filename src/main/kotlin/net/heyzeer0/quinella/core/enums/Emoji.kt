@@ -1,4 +1,4 @@
-package net.heyzeer0.quinella.core.commands.enums
+package net.heyzeer0.quinella.core.enums
 
 enum class Emoji(val discord: String, val unicode: String?) {
 
@@ -69,6 +69,7 @@ enum class Emoji(val discord: String, val unicode: String?) {
     STAR(":star:", "\u2b50"),
 
     ANIM_CORRECT("<a:animated_check_mark:565648828435398708>", null),
+    ANIM_LOADING("<a:animated_loading:677951734894690336>", null),
     QUINELLA_THINK("<:quinellaThink:673972230488719360>", null),
     QUINELLA_TREE("<:quinellaTree:673974438923993109>", null),
     EMPTY("<:empty:621781910653370380>", null);
