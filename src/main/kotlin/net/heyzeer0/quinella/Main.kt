@@ -4,7 +4,7 @@ import net.dv8tion.jda.api.JDA
 import net.dv8tion.jda.api.JDABuilder
 import net.dv8tion.jda.api.entities.Activity
 import net.heyzeer0.quinella.commands.*
-import net.heyzeer0.quinella.core.commands.CommandManager
+import net.heyzeer0.quinella.core.commands.CommandManager.registerCommands
 import net.heyzeer0.quinella.core.configs.coreConfig
 import net.heyzeer0.quinella.core.currentTimeMillis
 import net.heyzeer0.quinella.core.listeners.MainListener
@@ -16,7 +16,6 @@ import java.io.File
 
 lateinit var jda: JDA
 
-var commandManager = CommandManager()
 lateinit var databaseManager: DatabaseManager
 val httpClient = OkHttpClient()
 
@@ -43,11 +42,11 @@ private fun main() {
     //<editor-fold desc="Comandos sendo registrados">
     ms = currentTimeMillis()
     println("> Registering all commands... ")
-    commandManager.registerCommands(TestCommands::class)
-    commandManager.registerCommands(HelpCommands::class)
-    commandManager.registerCommands(MiscCommands::class)
-    commandManager.registerCommands(FunCommands::class)
-    commandManager.registerCommands(ModCommands::class)
+    registerCommands(TestCommands::class)
+    registerCommands(HelpCommands::class)
+    registerCommands(MiscCommands::class)
+    registerCommands(FunCommands::class)
+    registerCommands(ModCommands::class)
     println(" - Took " + (currentTimeMillis() -ms) + "ms to register all commands")
     //</editor-fold>
 

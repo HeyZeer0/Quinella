@@ -15,6 +15,8 @@ import java.util.*
 import java.util.regex.Pattern
 import kotlin.random.Random
 
+val random = java.util.Random()
+
 fun currentTimeMillis():Long {
     return System.currentTimeMillis()
 }

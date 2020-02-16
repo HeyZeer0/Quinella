@@ -14,7 +14,7 @@ import kotlin.reflect.full.createInstance
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.functions
 
-class CommandManager {
+object CommandManager {
 
     var commandList = ArrayList<CommandContainer>()
     var commandAliases = HashMap<String, String>()
@@ -39,7 +39,7 @@ class CommandManager {
             }
 
             ann.aliases.forEach { commandAliases[
-                if(ann.name.contains("/")) ann.name.replace(ann.name.split("/")[0], it) else it
+                if (ann.name.contains("/")) ann.name.replace(ann.name.split("/")[0], it) else it
             ] = ann.name }
 
             commandList.plusAssign(CommandContainer(it, ann, instance, requiredParams))
@@ -90,6 +90,7 @@ class CommandManager {
                     "\n**Use:** ``${coreConfig.mainPrefix}${cmdContainer.annotation.name.replace("/", " ")} " + cmdContainer.requiredParams.joinToString(" ") + "``")
                 return
             }
+            if (!argTranslator.has(arg.name)) continue
 
             val invalid = when(arg.type) {
                 ArgumentType.STRING -> false

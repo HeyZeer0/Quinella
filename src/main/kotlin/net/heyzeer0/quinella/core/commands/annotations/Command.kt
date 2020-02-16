@@ -1,7 +1,7 @@
 package net.heyzeer0.quinella.core.commands.annotations
 
-import net.heyzeer0.quinella.core.commands.enums.CommandType
 import net.dv8tion.jda.api.Permission
+import net.heyzeer0.quinella.core.commands.enums.CommandType
 
 annotation class Command(
 
@@ -12,6 +12,7 @@ annotation class Command(
     val description: String,
     val sendTyping: Boolean = true,
     val botOwnerOnly: Boolean = false,
+    val showHelp: Boolean = true,
     val aliases: Array<String> = []
 
 )

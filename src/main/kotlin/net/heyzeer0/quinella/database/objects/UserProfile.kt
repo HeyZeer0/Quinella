@@ -7,6 +7,7 @@ data class UserProfile(
     override val id: Long,
 
     //real objects
+    var osuId: String? = null,
 
     override val table: String = "users"
 

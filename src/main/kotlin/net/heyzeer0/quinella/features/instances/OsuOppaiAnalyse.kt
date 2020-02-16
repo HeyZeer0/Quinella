@@ -10,6 +10,13 @@ class OsuOppaiAnalyse(
     val speed: Double,
     val aim: Double,
 
+    val stars: Double,
+    val ar: Float,
+    val od: Float,
+    val hp: Float,
+    val cs: Float,
+    val objects: Int,
+
     val hitCircles: Int,
     val sliders: Int,
 

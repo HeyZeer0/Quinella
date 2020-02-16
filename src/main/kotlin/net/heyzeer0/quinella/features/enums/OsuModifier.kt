@@ -1,31 +1,29 @@
 package net.heyzeer0.quinella.features.enums
 
-import java.awt.image.BufferedImage
+import net.heyzeer0.quinella.core.enums.ImageTemplate
 
 enum class OsuModifier(
 
     val id: Int,
     val shortName: String,
-    val imageFile: String?
+    val image: ImageTemplate?
 
 ) {
 
-    NO_FAIL(1, "NF", "mod-no-fail"),
-    EASY(2, "EZ", "mod-easy"),
-    HIDDEN(8, "HD", "mod-hidden"),
-    HARD_ROCK(16, "HR", "mod-hard-rock"),
-    SUDDEN_DEATH(32, "SD", "mod-sudden-death"),
-    DOUBLE_TIME(64, "DT", "mod-double-time"),
+    NO_FAIL(1, "NF", ImageTemplate.OSU_MOD_NO_FAIL),
+    EASY(2, "EZ", ImageTemplate.OSU_MOD_EASY),
+    HIDDEN(8, "HD", ImageTemplate.OSU_MOD_HIDDEN),
+    HARD_ROCK(16, "HR", ImageTemplate.OSU_MOD_HARD_ROCK),
+    SUDDEN_DEATH(32, "SD", ImageTemplate.OSU_MOD_SUDDEN_DEATH),
+    DOUBLE_TIME(64, "DT", ImageTemplate.OSU_MOD_DOUBLE_TIME),
     RELAX(128, "RX", null),
     HALF_TIME(256, "HT", null),
-    NIGHT_CORE(512, "NC", "mod-nightcore"),
-    FLASHLIGHT(1024, "FL", "mod-flashlight"),
+    NIGHT_CORE(512, "NC", ImageTemplate.OSU_MOD_NIGHT_CORE),
+    FLASHLIGHT(1024, "FL", ImageTemplate.OSU_MOD_FLASHLIGHT),
     AUTOPLAY(2048, "AP", null),
     SPUN_OUT(4096, "SO", null),
     RELAX2(8192, "RX2", null),
-    PERFECT(16384, "PF", "mod-perfect");
-
-    lateinit var image: BufferedImage
+    PERFECT(16384, "PF", ImageTemplate.OSU_MOD_PERFECT);
 
     fun hasMod(modSum: Int): Boolean {
         return (modSum and id) == id

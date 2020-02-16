@@ -42,6 +42,10 @@ class ArgumentTranslator(rawArguments: String, val guild: Guild) {
         return mappedArguments[key]
     }
 
+    fun getAsInteger(key: String): Int? {
+        return mappedArguments[key]?.toInt()
+    }
+
     fun getAsUsers(key: String): List<User>? {
         return mappedArguments[key]?.let { findUsers(it) }
     }

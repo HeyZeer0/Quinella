@@ -9,9 +9,14 @@ import net.heyzeer0.quinella.core.commands.translators.ArgumentTranslator
 import net.heyzeer0.quinella.core.commands.translators.MessageTranslator
 import net.heyzeer0.quinella.core.currentTimeMillis
 import net.heyzeer0.quinella.core.enums.Emoji
+import net.heyzeer0.quinella.core.random
+import net.heyzeer0.quinella.databaseManager
+import net.heyzeer0.quinella.features.instances.OsuOppaiAnalyse
 import net.heyzeer0.quinella.features.managers.OsuManager
 import net.heyzeer0.quinella.features.parsers.OsuParser
 import java.util.function.Consumer
+import kotlin.math.abs
+import kotlin.streams.toList
 
 class TestCommands {
 
@@ -23,7 +28,8 @@ class TestCommands {
         })
     }
 
-    @Command(name = "teste", permissions = [], type = CommandType.INFORMATIVE, description = "Test Command", botOwnerOnly = true)
+    @Command(name = "teste", permissions = [], type = CommandType.INFORMATIVE, description = "Test Command",
+        botOwnerOnly = true, showHelp = false)
     fun test(e: MessageTranslator, args: ArgumentTranslator) {
         e.sendMessage("tested!")
     }
@@ -72,5 +78,26 @@ class TestCommands {
         e.sendMessage(Emoji.ANIM_CORRECT + "Started to analyse, see the command line to follow!")
     }
 
+    @Command(name = "teste/osu/ps", permissions = [], type = CommandType.INFORMATIVE, description = "Test Command", botOwnerOnly = true,
+        args = [ Argument("u", ArgumentType.STRING, "user", false)])
+    fun testOsuPlayStyle(e: MessageTranslator, args: ArgumentTranslator) {
+        val userBests = OsuParser.requestUserBests(args.getAsString("u")!!, 10)
+        val beatMaps = userBests.map { OsuParser.requestBeatMapProfile(it.beatMapId)!! }.toList()
+
+        val userStyle = OsuManager.calculateUserPlayStyle(args.getAsString("u")!!, userBests, beatMaps)
+        val analysedMaps = databaseManager.getServerProfile().osuAnalysedBeatMaps
+
+        val comparator = compareBy<OsuOppaiAnalyse>
+            { abs(it.performancePoints - userStyle.performancePoints) }
+            .thenBy { abs(it.hitCircles - userStyle.hitCircles) }
+
+        val recommendedMaps = analysedMaps.stream().filter{ it.mods == userStyle.mods }.sorted(comparator).limit(15).toList()
+        val recommendedMap = recommendedMaps[random.nextInt(recommendedMaps.size)]
+
+        val gson = GsonBuilder().setPrettyPrinting().create()
+
+        e.sendMessage("User Style:```json\n" + gson.toJson(userStyle) + "\n```")
+        e.sendMessage("Recommended Map:```json\n" + gson.toJson(recommendedMap) + "\n```")
+    }
 
 }

@@ -68,6 +68,18 @@ enum class Emoji(val discord: String, val unicode: String?) {
     MUSIC(":musical_note:", null),
     STAR(":star:", "\u2b50"),
 
+    PURPLE_SQUARE(":purple_square:", ""),
+
+    ONE(":one:", ""),
+    TWO(":two:", ""),
+    THREE(":three:", ""),
+    FOUR(":four:", ""),
+    FIVE(":five:", ""),
+    SIX(":six:", ""),
+    SEVEN(":seven:", ""),
+    EIGHT(":eight:", ""),
+    NINE(":nine:", ""),
+
     ANIM_CORRECT("<a:animated_check_mark:565648828435398708>", null),
     ANIM_LOADING("<a:animated_loading:677951734894690336>", null),
     QUINELLA_THINK("<:quinellaThink:673972230488719360>", null),

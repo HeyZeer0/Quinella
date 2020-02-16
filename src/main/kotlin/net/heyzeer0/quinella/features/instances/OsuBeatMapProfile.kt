@@ -22,7 +22,7 @@ class OsuBeatMapProfile(
     val difficultSpeed: Double,
     val difficultRating: Double,
 
-    val bpm: Int,
+    val bpm: Double,
     val maxCombo: Int,
     val mode: Int,
 

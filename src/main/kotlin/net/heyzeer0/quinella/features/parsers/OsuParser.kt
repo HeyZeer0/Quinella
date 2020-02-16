@@ -102,7 +102,7 @@ object OsuParser {
                 beatMapObject["diff_aim"].asString.toDouble(),
                 beatMapObject["diff_speed"].asString.toDouble(),
                 beatMapObject["difficultyrating"].asString.toDouble(),
-                beatMapObject["bpm"].asString.toInt(),
+                beatMapObject["bpm"].asString.toDouble(),
                 beatMapObject["max_combo"].asString.toInt(),
                 beatMapObject["mode"].asString.toInt(),
                 beatMapObject["count_normal"].asString.toInt(),
@@ -232,7 +232,11 @@ object OsuParser {
         parameters.mods = mods
 
         val pp = Koohii.PPv2(parameters)
-        return OsuOppaiAnalyse(mapId, currentTimeMillis(), pp.acc, pp.total, pp.speed, pp.aim, beatMap.ncircles, beatMap.nsliders, mods)
+        return OsuOppaiAnalyse(mapId,
+            currentTimeMillis(),
+            pp.acc, pp.total, pp.speed, pp.aim,
+            stars.total, beatMap.ar, beatMap.od, beatMap.hp, beatMap.cs, beatMap.objects.size,
+            beatMap.ncircles, beatMap.nsliders, mods)
     }
 
 }

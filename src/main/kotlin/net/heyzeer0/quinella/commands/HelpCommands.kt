@@ -1,7 +1,7 @@
 package net.heyzeer0.quinella.commands
 
 import net.dv8tion.jda.api.EmbedBuilder
-import net.heyzeer0.quinella.commandManager
+import net.heyzeer0.quinella.core.commands.CommandManager.commandList
 import net.heyzeer0.quinella.core.commands.annotations.Argument
 import net.heyzeer0.quinella.core.commands.annotations.Command
 import net.heyzeer0.quinella.core.commands.containers.HelpContainer
@@ -23,13 +23,13 @@ class HelpCommands {
             var command = args.getAsString("cmd")!!
             command = if (command.contains("/")) command.split("/")[0] else command
 
-            if (commandManager.commandList.none { it.annotation.name == command }) {
+            if (commandList.none { it.annotation.name == command }) {
                 e.sendMessage(Emoji.QUINELLA_THINK + "The provided command doesn't exists!")
                 return
             }
 
-            val foundCmd = commandManager.commandList.firstOrNull{ it.annotation.name == command}
-            val subcmds = commandManager.commandList.filter { it.annotation.name.startsWith("$command/") }
+            val foundCmd = commandList.firstOrNull{ it.annotation.name == command}
+            val subcmds = commandList.filter { it.annotation.name.startsWith("$command/") }
 
             val helpContainer = HelpContainer(command, foundCmd!!.annotation.description)
             helpContainer.arguments = foundCmd.annotation.args.map { "-" + it.name + " = " + it.description }.toList()
@@ -66,10 +66,10 @@ class HelpCommands {
             return
         }
 
-        val funCmds = commandManager.commandList.filter { it.annotation.type == CommandType.FUN }.filter{ !it.annotation.name.contains("/") }.map { it.annotation.name }.toList()
-        val misCmds = commandManager.commandList.filter { it.annotation.type == CommandType.MISCELLANEOUS }.filter{ !it.annotation.name.contains("/") }.map { it.annotation.name }.toList()
-        val infoCmds = commandManager.commandList.filter { it.annotation.type == CommandType.INFORMATIVE }.filter{ !it.annotation.name.contains("/") }.map { it.annotation.name }.toList()
-        val modCmds = commandManager.commandList.filter { it.annotation.type == CommandType.MODERATION }.filter{ !it.annotation.name.contains("/") }.map { it.annotation.name }.toList()
+        val funCmds = commandList.filter { it.annotation.type == CommandType.FUN && !it.annotation.name.contains("/") && it.annotation.showHelp }.map { it.annotation.name }.toList()
+        val misCmds = commandList.filter { it.annotation.type == CommandType.MISCELLANEOUS && !it.annotation.name.contains("/") && it.annotation.showHelp }.map { it.annotation.name }.toList()
+        val infoCmds = commandList.filter { it.annotation.type == CommandType.INFORMATIVE && !it.annotation.name.contains("/") && it.annotation.showHelp }.map { it.annotation.name }.toList()
+        val modCmds = commandList.filter { it.annotation.type == CommandType.MODERATION && !it.annotation.name.contains("/") && it.annotation.showHelp }.map { it.annotation.name }.toList()
 
         val embedBuilder = EmbedBuilder()
         embedBuilder.addField(Emoji.COOKIE + "| Fun", checkIfNull(funCmds), false)
@@ -78,8 +78,8 @@ class HelpCommands {
         embedBuilder.addField(Emoji.LOCK + "| Moderation", checkIfNull(modCmds), false)
 
         embedBuilder.setColor(Color.MAGENTA)
-        embedBuilder.setDescription("For more information type ``${coreConfig?.mainPrefix}help -cmd {comando}``")
-        embedBuilder.setFooter("Available Commands: ${commandManager.commandList.size}", null)
+        embedBuilder.setDescription("For more information type ``${coreConfig?.mainPrefix}help -cmd {command}``")
+        embedBuilder.setFooter("Available Commands: ${commandList.size}", null)
         embedBuilder.setThumbnail("https://emojipedia-us.s3.amazonaws.com/thumbs/120/twitter/139/white-question-mark-ornament_2754.png")
         embedBuilder.setAuthor("Listing all available commands", null, "https://i.imgur.com/06PexZc.png")
 

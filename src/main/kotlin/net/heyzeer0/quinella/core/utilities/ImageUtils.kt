@@ -17,7 +17,15 @@ fun getImageFromUrl(url: String):BufferedImage? {
     return ImageIO.read(response.body()!!.byteStream())
 }
 
-fun Graphics2D.drawStringWithWidthLimit(text: String, x: Int, y: Int, maxWidth: Int) {
+fun Graphics2D.drawString(text: String, x: Int, y: Int, fontSize: Float) {
+    if (fontSize > 0) font = font.deriveFont(fontSize)
+
+    drawString(text, x, y)
+}
+
+fun Graphics2D.drawStringWithWidthLimit(text: String, x: Int, y: Int, maxWidth: Int, fontSize: Float = 0f) {
+    if (fontSize > 0) font = font.deriveFont(fontSize)
+
     val initSize = font.size
 
     val initialHeight = fontMetrics.height
